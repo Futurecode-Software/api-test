@@ -11,9 +11,9 @@ Route::post('login', function (Request $request) {
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-        // Kullanıcı kimlik doğrulaması başarılı
+        // Authentication successful
         $user = Auth::user();
-        $token = $user->createToken('YourAppName')->accessToken;
+        $token = $user->createToken('YourAppName')->plainTextToken; // Use plainTextToken, not accessToken
 
         return response()->json([
             'success' => true,
@@ -22,7 +22,7 @@ Route::post('login', function (Request $request) {
         ]);
     }
 
-    // Kimlik doğrulama başarısız
+    // Authentication failed
     return response()->json([
         'success' => false,
         'message' => 'Unauthorized',
